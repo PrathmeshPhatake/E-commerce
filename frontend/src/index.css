@@ -3,11 +3,26 @@
 @tailwind utilities;
 
 body {
-  background: #0f0f10;
-  color: #fff;
+  background: hsl(0, 14%, 16%); /* Dark background */
+  color: #e0e0e0; /* Light text */
 }
 
-input,
-textarea {
-  color: #000;
+.primary {
+  background: #d4af37; /* Metallic gold */
+  color: #1a1a1a;
 }
+
+.secondary {
+  background: #2d2d2d; /* Slightly lighter dark */
+}
+
+.accent {
+  background: #8b0000; /* Deep red for contrast */
+}
+
+input, textarea {
+  background: #2d2d2d;
+  color: #e0e0e0;
+  border: 1px solid #444;
+}
+
