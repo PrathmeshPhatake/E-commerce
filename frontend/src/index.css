@@ -3,26 +3,26 @@
 @tailwind utilities;
 
 body {
-  background: hsl(0, 14%, 16%); /* Dark background */
+  background:F3EEEA; /* Dark background */
   color: #e0e0e0; /* Light text */
 }
 
 .primary {
-  background: #d4af37; /* Metallic gold */
+  background: #443f32; /* Metallic gold */
   color: #1a1a1a;
 }
 
 .secondary {
-  background: #2d2d2d; /* Slightly lighter dark */
+  background: #291d1d; /* Slightly lighter dark */
 }
 
 .accent {
-  background: #8b0000; /* Deep red for contrast */
+  background: #7bb011; /* Deep red for contrast */
 }
 
 input, textarea {
-  background: #2d2d2d;
-  color: #e0e0e0;
+  background: #d8c4c4;
+  color: rgb(28, 13, 13);
   border: 1px solid #444;
 }
 

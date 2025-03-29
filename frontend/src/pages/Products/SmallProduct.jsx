@@ -2,9 +2,9 @@ import { Link } from "react-router-dom";
 import HeartIcon from "./HeartIcon";
 
 const SmallProduct = ({ product }) => {
-  console.log(product);
   return (
-    <div className="w-[20rem] ml-[2rem] p-3 group transition-all duration-300 hover:scale-[1.02] hover:shadow-xl hover:z-10">
+    <div className="w-[20rem] ml-[2rem] p-3 group transition-all duration-300 hover:scale-[1.02] hover:shadow-2xl hover:shadow-gray-800/50 hover:z-10">
+      {/* Rest of your component remains exactly the same */}
       <div className="relative h-[15rem] overflow-hidden rounded-xl shadow-md transition-all duration-500">
         {/* Image with zoom and fade overlay */}
         <img
@@ -16,10 +16,10 @@ const SmallProduct = ({ product }) => {
         {/* Gradient overlay */}
         <div className="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
         
-        {/* Heart icon with hover effect */}
+        {/* Heart icon */}
         <HeartIcon product={product} className="absolute top-3 right-3 scale-90 group-hover:scale-100 transition-transform duration-300" />
         
-        {/* Quick view button that appears on hover */}
+        {/* Quick view button */}
         <Link to={`/product/${product._id}`} className="absolute bottom-4 left-1/2 -translate-x-1/2 bg-white text-pink-600 font-medium py-2 px-6 rounded-full opacity-0 group-hover:opacity-100 transform translate-y-4 group-hover:translate-y-0 transition-all duration-300 hover:bg-pink-600 hover:text-white shadow-lg">
           Quick View
         </Link>
@@ -35,7 +35,7 @@ const SmallProduct = ({ product }) => {
               ${product.price.toFixed(2)}
             </span>
           </h2>
-          {/* Rating and additional info */}
+          {/* Rating */}
           <div className="flex items-center mt-1 space-x-1">
             <div className="flex text-amber-400">
               {[...Array(5)].map((_, i) => (
@@ -49,7 +49,7 @@ const SmallProduct = ({ product }) => {
           {/* Stock status */}
           <div className="mt-2">
             <span className={`text-xs px-2 py-1 rounded-full ${product.inStock > 0 ? 'bg-green-100 text-green-800' : 'bg-gray-100 text-gray-800'}`}>
-              {product?.quantity > 0 ? `in stock` : 'Out of stock'}
+              {product?.quantity > 0 ? `In stock` : 'Out of stock'}
             </span>
           </div>
         </Link>

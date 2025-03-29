@@ -1,116 +1,116 @@
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { toast } from "react-toastify";
-
+import { Link } from "react-router-dom";
 import Loader from "../../components/Loader";
 import { useProfileMutation } from "../../redux/api/usersApiSlice";
 import { setCredentials } from "../../redux/features/auth/authSlice";
-import { Link } from "react-router-dom";
 
 const Profile = () => {
-  const [username, setUserName] = useState("");
+  const [username, setUsername] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
 
   const { userInfo } = useSelector((state) => state.auth);
-
-  const [updateProfile, { isLoading: loadingUpdateProfile }] =
-    useProfileMutation();
+  const [updateProfile, { isLoading: loadingUpdateProfile }] = useProfileMutation();
+  const dispatch = useDispatch();
 
   useEffect(() => {
-    setUserName(userInfo.username);
-    setEmail(userInfo.email);
-  }, [userInfo.email, userInfo.username]);
-
-  const dispatch = useDispatch();
+    if (userInfo) {
+      setUsername(userInfo.username);
+      setEmail(userInfo.email);
+    }
+  }, [userInfo]);
 
   const submitHandler = async (e) => {
     e.preventDefault();
     if (password !== confirmPassword) {
-      toast.error("Passwords do not match");
-    } else {
-      try {
-        const res = await updateProfile({
-          _id: userInfo._id,
-          username,
-          email,
-          password,
-        }).unwrap();
-        dispatch(setCredentials({ ...res }));
-        toast.success("Profile updated successfully");
-      } catch (err) {
-        toast.error(err?.data?.message || err.error);
-      }
+      toast.error("Passwords do not match", {
+        className: "bg-[#5D534A] text-[#F3EEEA]",
+        progressClassName: "bg-[#B0A695]"
+      });
+      return;
+    }
+
+    try {
+      const res = await updateProfile({
+        _id: userInfo._id,
+        username,
+        email,
+        password,
+      }).unwrap();
+      dispatch(setCredentials({ ...res }));
+      toast.success("Profile updated successfully", {
+        className: "bg-[#5D534A] text-[#F3EEEA]",
+        progressClassName: "bg-[#B0A695]"
+      });
+    } catch (err) {
+      toast.error(err?.data?.message || err.error);
     }
   };
 
   return (
-    <div className="container mx-auto p-4 mt-[10rem]">
-      <div className="flex justify-center align-center md:flex md:space-x-4">
-        <div className="md:w-1/3">
-          <h2 className="text-2xl font-semibold mb-4">Update Profile</h2>
-          <form onSubmit={submitHandler}>
-            <div className="mb-4">
-              <label className="block text-white mb-2">Name</label>
+    <div className="min-h-screen bg-[#F9F7F5] py-10 flex items-center justify-center">
+      <div className="container mx-auto px-4 max-w-md">
+        <div className="bg-white rounded-xl shadow-md p-8">
+          <h2 className="text-2xl font-bold text-[#3A3632] mb-6 text-center">Update Profile</h2>
+          <form onSubmit={submitHandler} className="space-y-4">
+            <div>
+              <label className="block text-sm font-medium text-[#5D534A] mb-1">Username</label>
               <input
                 type="text"
-                placeholder="Enter name"
-                className="form-input p-4 rounded-sm w-full"
+                placeholder="Enter username"
+                className="w-full px-4 py-2.5 border border-[#EBE3D5] rounded-lg focus:outline-none focus:ring-1 focus:ring-[#B0A695] text-[#3A3632]"
                 value={username}
-                onChange={(e) => setUserName(e.target.value)}
+                onChange={(e) => setUsername(e.target.value)}
               />
             </div>
 
-            <div className="mb-4">
-              <label className="block text-white mb-2">Email Address</label>
+            <div>
+              <label className="block text-sm font-medium text-[#5D534A] mb-1">Email Address</label>
               <input
                 type="email"
                 placeholder="Enter email"
-                className="form-input p-4 rounded-sm w-full"
+                className="w-full px-4 py-2.5 border border-[#EBE3D5] rounded-lg focus:outline-none focus:ring-1 focus:ring-[#B0A695] text-[#3A3632]"
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
               />
             </div>
 
-            <div className="mb-4">
-              <label className="block text-white mb-2">Password</label>
+            <div>
+              <label className="block text-sm font-medium text-[#5D534A] mb-1">New Password</label>
               <input
                 type="password"
-                placeholder="Enter password"
-                className="form-input p-4 rounded-sm w-full"
+                placeholder="Enter new password"
+                className="w-full px-4 py-2.5 border border-[#EBE3D5] rounded-lg focus:outline-none focus:ring-1 focus:ring-[#B0A695] text-[#3A3632]"
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
               />
             </div>
 
-            <div className="mb-4">
-              <label className="block text-white mb-2">Confirm Password</label>
+            <div>
+              <label className="block text-sm font-medium text-[#5D534A] mb-1">Confirm Password</label>
               <input
                 type="password"
-                placeholder="Confirm password"
-                className="form-input p-4 rounded-sm w-full"
+                placeholder="Confirm new password"
+                className="w-full px-4 py-2.5 border border-[#EBE3D5] rounded-lg focus:outline-none focus:ring-1 focus:ring-[#B0A695] text-[#3A3632]"
                 value={confirmPassword}
                 onChange={(e) => setConfirmPassword(e.target.value)}
               />
             </div>
 
-            <div className="flex justify-between">
+            <div className="flex flex-col sm:flex-row gap-3 pt-4">
               <button
                 type="submit"
-                className="bg-pink-500 text-white py-2 px-4 rounded hover:bg-pink-600"
+                disabled={loadingUpdateProfile}
+                className="flex-1 py-2.5 px-4 bg-[#776B5D] text-white rounded-lg hover:bg-[#5D534A] transition-colors disabled:opacity-70"
               >
-                Update
+                {loadingUpdateProfile ? "Updating..." : "Update Profile"}
               </button>
 
-              <Link
-                to="/user-orders"
-                className="bg-pink-600 text-white py-2 px-4 rounded hover:bg-pink-700"
-              >
-                My Orders
-              </Link>
+              
             </div>
-            {loadingUpdateProfile && <Loader />}
           </form>
         </div>
       </div>

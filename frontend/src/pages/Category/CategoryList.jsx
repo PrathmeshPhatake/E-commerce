@@ -5,11 +5,10 @@ import {
   useDeleteCategoryMutation,
   useFetchCategoriesQuery,
 } from "../../redux/api/categoryApiSlice";
-
 import { toast } from "react-toastify";
 import CategoryForm from "../../components/CategoryForm";
 import Modal from "../../components/Modal";
-import AdminMenu from "./AdminMenu";
+import AdminMenu from "../Admin/AdminMenu";
 
 const CategoryList = () => {
   const { data: categories } = useFetchCategoriesQuery();
@@ -17,6 +16,8 @@ const CategoryList = () => {
   const [selectedCategory, setSelectedCategory] = useState(null);
   const [updatingName, setUpdatingName] = useState("");
   const [modalVisible, setModalVisible] = useState(false);
+  const [imageUrl, setImageUrl] = useState("");
+  const [updatingImageUrl, setUpdatingImageUrl] = useState("");
 
   const [createCategory] = useCreateCategoryMutation();
   const [updateCategory] = useUpdateCategoryMutation();
@@ -31,11 +32,16 @@ const CategoryList = () => {
     }
 
     try {
-      const result = await createCategory({ name }).unwrap();
+      const result = await createCategory({ 
+        name, 
+        image: imageUrl 
+      }).unwrap();
+      
       if (result.error) {
         toast.error(result.error);
       } else {
         setName("");
+        setImageUrl("");
         toast.success(`${result.name} is created.`);
       }
     } catch (error) {
@@ -57,6 +63,7 @@ const CategoryList = () => {
         categoryId: selectedCategory._id,
         updatedCategory: {
           name: updatingName,
+          image: updatingImageUrl || selectedCategory.image
         },
       }).unwrap();
 
@@ -66,6 +73,7 @@ const CategoryList = () => {
         toast.success(`${result.name} is updated`);
         setSelectedCategory(null);
         setUpdatingName("");
+        setUpdatingImageUrl("");
         setModalVisible(false);
       }
     } catch (error) {
@@ -86,7 +94,7 @@ const CategoryList = () => {
       }
     } catch (error) {
       console.error(error);
-      toast.error("Category delection failed. Tray again.");
+      toast.error("Category deletion failed. Try again.");
     }
   };
 
@@ -99,25 +107,33 @@ const CategoryList = () => {
           value={name}
           setValue={setName}
           handleSubmit={handleCreateCategory}
+          imageUrl={imageUrl}
+          setImageUrl={setImageUrl}
         />
         <br />
         <hr />
 
         <div className="flex flex-wrap">
           {categories?.map((category) => (
-            <div key={category._id}>
+            <div key={category._id} className="flex flex-col items-center m-3">
               <button
-                className="bg-white border border-pink-500 text-pink-500 py-2 px-4 rounded-lg m-3 hover:bg-pink-500 hover:text-white focus:outline-none foucs:ring-2 focus:ring-pink-500 focus:ring-opacity-50"
+                className="bg-white border border-pink-500 text-pink-500 py-2 px-4 rounded-lg hover:bg-pink-500 hover:text-white focus:outline-none foucs:ring-2 focus:ring-pink-500 focus:ring-opacity-50"
                 onClick={() => {
-                  {
-                    setModalVisible(true);
-                    setSelectedCategory(category);
-                    setUpdatingName(category.name);
-                  }
+                  setModalVisible(true);
+                  setSelectedCategory(category);
+                  setUpdatingName(category.name);
+                  setUpdatingImageUrl("");
                 }}
               >
                 {category.name}
               </button>
+                {/* {category.image && (
+                  <img 
+                    src={category.image} 
+                    alt={category.name} 
+                    className="h-16 w-16 object-cover mt-2 rounded"
+                  />
+                )} */}
             </div>
           ))}
         </div>
@@ -129,6 +145,8 @@ const CategoryList = () => {
             handleSubmit={handleUpdateCategory}
             buttonText="Update"
             handleDelete={handleDeleteCategory}
+            imageUrl={updatingImageUrl || selectedCategory?.image}
+            setImageUrl={setUpdatingImageUrl}
           />
         </Modal>
       </div>
