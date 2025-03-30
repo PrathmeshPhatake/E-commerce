@@ -5,6 +5,8 @@
   "main": "index.js",
   "type": "module",
   "scripts": {
+    "build": "mkdir build && robocopy . build /E /XD build node_modules",
+    "start": "node build/backend/index.js",
     "backend": "nodemon backend/index.js",
     "frontend": "npm run dev --prefix frontend",
     "dev": "concurrently \"npm run frontend\" \"npm run backend"
@@ -25,7 +27,7 @@
     "jsonwebtoken": "^9.0.2",
     "mongoose": "^7.6.3",
     "multer": "^1.4.5-lts.1",
-    "nodemon": "^3.0.1",
+    "nodemon": "^3.0.1",      
     "simple-image-slider": "^1.1.1"
   }
 }
