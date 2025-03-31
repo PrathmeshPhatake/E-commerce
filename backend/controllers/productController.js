@@ -1,10 +1,10 @@
 import asyncHandler from "../middlewares/asyncHandler.js";
-import Product from "../routes/models/productModel.js";
+import Product from "../models/productModel.js";
 
 const addProduct = asyncHandler(async (req, res) => {
   try {
     const { name, description, price, category, quantity, brand } = req.fields;
-    console.log(req.fields);
+
     // Validation
     switch (true) {
       case !name:

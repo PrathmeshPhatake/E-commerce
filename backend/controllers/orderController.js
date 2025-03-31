@@ -1,5 +1,5 @@
-import Order from "../routes/models/orderModel.js";
-import Product from "../routes/models/productModel.js";
+import Order from "../models/orderModel.js";
+import Product from "../models/productModel.js";
 
 // Utility Function
 function calcPrices(orderItems) {
@@ -212,4 +212,3 @@ export {
   markOrderAsPaid,
   markOrderAsDelivered,
 };
-

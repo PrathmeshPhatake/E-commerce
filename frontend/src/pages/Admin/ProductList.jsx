@@ -39,7 +39,7 @@ const ProductList = () => {
       Object.entries(formData).forEach(([key, value]) => {
         productData.append(key, value);
       });
-
+      console.log("productData:",{productData});
       const { data } = await createProduct(productData);
 
       if (data.error) {
