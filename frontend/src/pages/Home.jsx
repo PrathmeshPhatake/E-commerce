@@ -9,6 +9,8 @@ import img2 from "../../Public/img2.webp"
 import img3 from "../../Public/img3.webp"
 import SimpleImageSlider from "react-simple-image-slider";
 import CategoryHome from "./Category/CategoryHome.jsx";
+import ChatbotWidget from "./ChatbotWidget.jsx"
+
 const Home = () => {
   const { keyword } = useParams();
   const { data, isLoading, isError } = useGetProductsQuery({ keyword });
@@ -72,6 +74,7 @@ const Home = () => {
           </div>
         </>
       )}
+       <ChatbotWidget />
     </>
   );
 };

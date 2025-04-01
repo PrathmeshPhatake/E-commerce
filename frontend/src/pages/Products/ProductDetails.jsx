@@ -1,4 +1,4 @@
-import { useState, useRef } from "react";
+import { useState, useRef, useEffect } from "react";
 import { useParams, Link, useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { toast } from "react-toastify";
@@ -6,6 +6,9 @@ import {
   useGetProductDetailsQuery,
   useCreateReviewMutation,
 } from "../../redux/api/productApiSlice";
+import {
+  useGetSummarizedReviewQuery
+} from "../../redux/api/ollamaApiSlice"
 import Loader from "../../components/Loader";
 import Message from "../../components/Message";
 import {
@@ -32,6 +35,7 @@ const ProductDetails = () => {
   const [qty, setQty] = useState(1);
   const [rating, setRating] = useState(0);
   const [comment, setComment] = useState("");
+  const [reviewSumary,setReviewSummary]=useState(null);
   const [zoom, setZoom] = useState({
     show: false,
     posX: 0,
@@ -45,11 +49,34 @@ const ProductDetails = () => {
     error,
   } = useGetProductDetailsQuery(productId);
 
-  const { userInfo } = useSelector((state) => state.auth);
 
+
+  const { userInfo } = useSelector((state) => state.auth);
+  const { data: reviewSummary, error: reviewError, isLoading: reviewLoading } = useGetSummarizedReviewQuery({productId});
+
+  useEffect(() => {
+    if (reviewSummary) {
+      console.log("Summarized Review:", reviewSummary);
+    }
+  }, [reviewSummary]);  
+  // useEffect(()=>{
+  //   const fetchreviewSummary=async()=>{
+  //     try {
+  //       const response =await fetch(`http://localhost:5000/api/ollama/genaireview/${productId}`);
+  //       const data = await response.json();
+  //       console.log("API Response:", data);
+  //       setReviewSummary(data);
+  //     } catch (error) {
+  //       console.error("Error fetching summarized review:", error);
+
+  //     }
+  //   };
+  //   fetchreviewSummary();
+  // },[productId]);
   const [createReview, { isLoading: loadingProductReview }] =
     useCreateReviewMutation();
-
+    const { data: reviews } = useGetSummarizedReviewQuery(productId);
+    // console.log("data:",data);
   const handleMouseMove = (e) => {
     if (!imgRef.current || !zoomRef.current) return;
 
@@ -251,6 +278,7 @@ const ProductDetails = () => {
                 comment={comment}
                 setComment={setComment}
                 product={product}
+                reviewSummary={reviewSummary}
               />
             </div>
           </>

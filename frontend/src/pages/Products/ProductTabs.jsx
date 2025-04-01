@@ -4,7 +4,6 @@ import Ratings from "./Ratings";
 import { useGetTopProductsQuery } from "../../redux/api/productApiSlice";
 import SmallProduct from "./SmallProduct";
 import Loader from "../../components/Loader";
-
 const ProductTabs = ({
   loadingProductReview,
   userInfo,
@@ -14,9 +13,9 @@ const ProductTabs = ({
   comment,
   setComment,
   product,
+  reviewSummary,
 }) => {
   const { data, isLoading } = useGetTopProductsQuery();
-
   const [activeTab, setActiveTab] = useState(1);
 
   if (isLoading) {
@@ -29,7 +28,7 @@ const ProductTabs = ({
 
   return (
     <div className="flex flex-col md:flex-row bg-[#F9F7F5] p-6 rounded-lg shadow-sm">
-      {/* Tab Navigation */}
+      {/* Left Tabs Navigation */}
       <section className="md:w-1/4 mb-6 md:mb-0">
         <div className="space-y-2">
           <button
@@ -40,7 +39,7 @@ const ProductTabs = ({
             }`}
             onClick={() => handleTabClick(1)}
           >
-            Write Your Review
+            Review Summary
           </button>
           <button
             className={`w-full text-left p-3 rounded-lg transition-colors ${
@@ -50,7 +49,7 @@ const ProductTabs = ({
             }`}
             onClick={() => handleTabClick(2)}
           >
-            All Reviews
+            Write Your Review
           </button>
           <button
             className={`w-full text-left p-3 rounded-lg transition-colors ${
@@ -60,20 +59,78 @@ const ProductTabs = ({
             }`}
             onClick={() => handleTabClick(3)}
           >
+            All Reviews
+          </button>
+          <button
+            className={`w-full text-left p-3 rounded-lg transition-colors ${
+              activeTab === 4
+                ? "bg-[#776B5D] text-white"
+                : "bg-[#F3EEEA] text-[#5D534A] hover:bg-[#EBE3D5]"
+            }`}
+            onClick={() => handleTabClick(4)}
+          >
             Related Products
           </button>
         </div>
       </section>
 
-      {/* Tab Content */}
+      {/* Right Content Section */}
       <section className="md:w-3/4 md:pl-8">
+        {/* Review Summary Tab */}
+        {/* Review Summary Tab */}
+        {activeTab === 1 && reviewSummary && (
+          <div className="bg-white p-6 rounded-lg shadow-sm">
+            <h3 className="text-xl font-medium text-[#5D534A] mb-4">
+              Review Summary
+            </h3>
+            <p className="text-lg font-semibold text-[#3A3632]">
+              Sentiment Score: {reviewSummary?.summary?.sentiment_score} ⭐
+            </p>
+
+            {/* Pros Section */}
+            <div className="mt-4">
+              <h4 className="text-lg font-medium text-green-600">Pros:</h4>
+              <ul className="list-disc list-inside text-[#5D534A]">
+                {reviewSummary?.summary?.pros?.length > 0 ? (
+                  reviewSummary.summary.pros.map((pro, index) => (
+                    <li key={index} className="text-sm">
+                      {pro.text} {pro.emoji}
+                    </li>
+                  ))
+                ) : (
+                  <p className="text-sm">No pros mentioned.</p>
+                )}
+              </ul>
+            </div>
+
+            {/* Cons Section */}
+            <div className="mt-4">
+              <h4 className="text-lg font-medium text-red-600">Cons:</h4>
+              <ul className="list-disc list-inside text-[#5D534A]">
+                {reviewSummary?.summary?.cons?.length > 0 ? (
+                  reviewSummary.summary.cons.map((con, index) => (
+                    <li key={index} className="text-sm">
+                      {con.text} {con.emoji}
+                    </li>
+                  ))
+                ) : (
+                  <p className="text-sm">No cons mentioned.</p>
+                )}
+              </ul>
+            </div>
+          </div>
+        )}
+
         {/* Write Review Tab */}
-        {activeTab === 1 && (
+        {activeTab === 2 && (
           <div className="bg-white p-6 rounded-lg shadow-sm">
             {userInfo ? (
               <form onSubmit={submitHandler}>
                 <div className="mb-6">
-                  <label htmlFor="rating" className="block text-lg font-medium text-[#5D534A] mb-2">
+                  <label
+                    htmlFor="rating"
+                    className="block text-lg font-medium text-[#5D534A] mb-2"
+                  >
                     Rating
                   </label>
                   <select
@@ -93,7 +150,10 @@ const ProductTabs = ({
                 </div>
 
                 <div className="mb-6">
-                  <label htmlFor="comment" className="block text-lg font-medium text-[#5D534A] mb-2">
+                  <label
+                    htmlFor="comment"
+                    className="block text-lg font-medium text-[#5D534A] mb-2"
+                  >
                     Comment
                   </label>
                   <textarea
@@ -131,7 +191,7 @@ const ProductTabs = ({
         )}
 
         {/* All Reviews Tab */}
-        {activeTab === 2 && (
+        {activeTab === 3 && (
           <div className="space-y-4">
             {product.reviews.length === 0 ? (
               <div className="bg-white p-6 rounded-lg shadow-sm text-center text-[#5D534A]">
@@ -145,7 +205,9 @@ const ProductTabs = ({
                 >
                   <div className="flex justify-between items-start mb-4">
                     <div>
-                      <strong className="text-[#3A3632] block">{review.name}</strong>
+                      <strong className="text-[#3A3632] block">
+                        {review.name}
+                      </strong>
                       <Ratings value={review.rating} />
                     </div>
                     <p className="text-[#8C7D6D] text-sm">
@@ -158,17 +220,21 @@ const ProductTabs = ({
             )}
           </div>
         )}
-
         {/* Related Products Tab */}
-        {activeTab === 3 && (
+        {activeTab === 4 && (
           <div>
-            <h3 className="text-xl font-medium text-[#5D534A] mb-6">You might also like</h3>
+            <h3 className="text-xl font-medium text-[#5D534A] mb-6">
+              You might also like
+            </h3>
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
               {!data ? (
                 <Loader />
               ) : (
                 data.map((product) => (
-                  <div key={product._id} className="bg-white  rounded-lg shadow-sm hover:shadow-md transition-shadow">
+                  <div
+                    key={product._id}
+                    className="bg-white  rounded-lg shadow-sm hover:shadow-md transition-shadow"
+                  >
                     <SmallProduct product={product} />
                   </div>
                 ))
