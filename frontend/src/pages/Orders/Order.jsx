@@ -26,7 +26,7 @@ const Order = () => {
       const loadPayPalScript = async () => {
         paypalDispatch({
           type: "resetOptions",
-          value: { "client-id": paypal.clientId, currency: "USD" },
+          value: { "client-id": paypal.clientId, currency: "INR" },
         });
         paypalDispatch({ type: "setLoadingStatus", value: "pending" });
       };
@@ -117,13 +117,13 @@ const Order = () => {
                           <td className="px-4 py-3 whitespace-nowrap text-[#3A3632]">
                             {item.price.toLocaleString("en-US", {
                               style: "currency",
-                              currency: "USD"
+                              currency: "INR"
                             })}
                           </td>
                           <td className="px-4 py-3 whitespace-nowrap text-[#3A3632] font-medium">
                             {(item.qty * item.price).toLocaleString("en-US", {
                               style: "currency",
-                              currency: "USD"
+                              currency: "INR"
                             })}
                           </td>
                         </tr>
@@ -167,19 +167,19 @@ const Order = () => {
                 <div className="space-y-2 text-[#3A3632]">
                   <div className="flex justify-between">
                     <span>Items:</span>
-                    <span>{order.itemsPrice.toLocaleString("en-US", { style: "currency", currency: "USD" })}</span>
+                    <span>{order.itemsPrice.toLocaleString("en-US", { style: "currency", currency: "INR" })}</span>
                   </div>
                   <div className="flex justify-between">
                     <span>Shipping:</span>
-                    <span>{order.shippingPrice.toLocaleString("en-US", { style: "currency", currency: "USD" })}</span>
+                    <span>{order.shippingPrice.toLocaleString("en-US", { style: "currency", currency: "INR" })}</span>
                   </div>
                   <div className="flex justify-between">
                     <span>Tax:</span>
-                    <span>{order.taxPrice.toLocaleString("en-US", { style: "currency", currency: "USD" })}</span>
+                    <span>{order.taxPrice.toLocaleString("en-US", { style: "currency", currency: "INR" })}</span>
                   </div>
                   <div className="flex justify-between border-t border-[#D9CDC1] pt-2 mt-2">
                     <span className="font-bold">Total:</span>
-                    <span className="font-bold">{order.totalPrice.toLocaleString("en-US", { style: "currency", currency: "USD" })}</span>
+                    <span className="font-bold">{order.totalPrice.toLocaleString("en-US", { style: "currency", currency: "INR" })}</span>
                   </div>
                 </div>
               </div>

@@ -6,9 +6,7 @@ import {
   useGetProductDetailsQuery,
   useCreateReviewMutation,
 } from "../../redux/api/productApiSlice";
-import {
-  useGetSummarizedReviewQuery
-} from "../../redux/api/ollamaApiSlice"
+import { useGetSummarizedReviewQuery } from "../../redux/api/ollamaApiSlice";
 import Loader from "../../components/Loader";
 import Message from "../../components/Message";
 import {
@@ -35,7 +33,7 @@ const ProductDetails = () => {
   const [qty, setQty] = useState(1);
   const [rating, setRating] = useState(0);
   const [comment, setComment] = useState("");
-  const [reviewSumary,setReviewSummary]=useState(null);
+  const [reviewSumary, setReviewSummary] = useState(null);
   const [zoom, setZoom] = useState({
     show: false,
     posX: 0,
@@ -49,16 +47,18 @@ const ProductDetails = () => {
     error,
   } = useGetProductDetailsQuery(productId);
 
-
-
   const { userInfo } = useSelector((state) => state.auth);
-  const { data: reviewSummary, error: reviewError, isLoading: reviewLoading } = useGetSummarizedReviewQuery({productId});
+  const {
+    data: reviewSummary,
+    error: reviewError,
+    isLoading: reviewLoading,
+  } = useGetSummarizedReviewQuery({ productId });
 
   useEffect(() => {
     if (reviewSummary) {
       console.log("Summarized Review:", reviewSummary);
     }
-  }, [reviewSummary]);  
+  }, [reviewSummary]);
   // useEffect(()=>{
   //   const fetchreviewSummary=async()=>{
   //     try {
@@ -75,15 +75,15 @@ const ProductDetails = () => {
   // },[productId]);
   const [createReview, { isLoading: loadingProductReview }] =
     useCreateReviewMutation();
-    const { data: reviews } = useGetSummarizedReviewQuery(productId);
-    // console.log("data:",data);
+  const { data: reviews } = useGetSummarizedReviewQuery(productId);
+  // console.log("data:",data);
   const handleMouseMove = (e) => {
     if (!imgRef.current || !zoomRef.current) return;
 
     const { left, top, width, height } = imgRef.current.getBoundingClientRect();
     const x = ((e.clientX - left) / width) * 100;
     const y = ((e.clientY - top) / height) * 100;
-    
+
     setZoom({
       show: true,
       posX: x,
@@ -92,16 +92,22 @@ const ProductDetails = () => {
 
     // Position the zoom lens
     const lensSize = 150;
-    const lensX = Math.max(0, Math.min(e.clientX - left - lensSize/2, width - lensSize));
-    const lensY = Math.max(0, Math.min(e.clientY - top - lensSize/2, height - lensSize));
-    
+    const lensX = Math.max(
+      0,
+      Math.min(e.clientX - left - lensSize / 2, width - lensSize)
+    );
+    const lensY = Math.max(
+      0,
+      Math.min(e.clientY - top - lensSize / 2, height - lensSize)
+    );
+
     zoomRef.current.style.left = `${lensX}px`;
     zoomRef.current.style.top = `${lensY}px`;
     zoomRef.current.style.backgroundPosition = `${x}% ${y}%`;
   };
 
   const handleMouseLeave = () => {
-    setZoom(prev => ({ ...prev, show: false }));
+    setZoom((prev) => ({ ...prev, show: false }));
   };
 
   const submitHandler = async (e) => {
@@ -116,14 +122,14 @@ const ProductDetails = () => {
       refetch();
       toast.success("Review submitted successfully", {
         className: "bg-[#3A3632] text-[#F3EEEA]",
-        progressClassName: "bg-[#8C7D6D]"
+        progressClassName: "bg-[#8C7D6D]",
       });
       setRating(0);
       setComment("");
     } catch (error) {
       toast.error(error?.data || error.message, {
         className: "bg-[#F3EEEA] text-[#5D534A]",
-        progressClassName: "bg-[#B0A695]"
+        progressClassName: "bg-[#B0A695]",
       });
     }
   };
@@ -133,7 +139,7 @@ const ProductDetails = () => {
     navigate("/cart");
     toast.success(`${product.name} added to cart`, {
       className: "bg-[#3A3632] text-[#F3EEEA]",
-      progressClassName: "bg-[#8C7D6D]"
+      progressClassName: "bg-[#8C7D6D]",
     });
   };
 
@@ -160,8 +166,12 @@ const ProductDetails = () => {
             <div className="flex flex-col lg:flex-row gap-12">
               {/* Product Images */}
               <div className="lg:w-1/2 relative">
-                <div 
+                <div
                   className="relative bg-white rounded-xl shadow-md overflow-hidden border border-[#EBE3D5] mb-4"
+                  style={{
+                    width: "500px", // Fixed width
+                    height: "500px", // Fixed height
+                  }}
                   onMouseMove={handleMouseMove}
                   onMouseLeave={handleMouseLeave}
                   ref={imgRef}
@@ -169,22 +179,30 @@ const ProductDetails = () => {
                   <img
                     src={product.image}
                     alt={product.name}
-                    className="w-full h-auto object-cover"
+                    className="w-full h-full object-contain" // Ensures full image visibility
+                    style={{
+                      width: "100%",
+                      height: "100%",
+                      objectFit: "contain", // Prevents cropping
+                    }}
                   />
-                  <div 
+                  <div
                     ref={zoomRef}
                     className="absolute pointer-events-none border-2 border-white rounded-full overflow-hidden shadow-lg"
                     style={{
-                      width: '150px',
-                      height: '150px',
+                      width: "250px",
+                      height: "250px",
                       backgroundImage: `url(${product.image})`,
-                      backgroundSize: '200% 200%',
+                      backgroundSize: "300% 300%",
                       zIndex: 10,
-                      transform: 'translateZ(0)',
-                      display: zoom.show ? 'block' : 'none',
+                      transform: "translateZ(0)",
+                      display: zoom.show ? "block" : "none",
                     }}
                   />
-                  <HeartIcon product={product} className="absolute top-4 right-4 z-10" />
+                  <HeartIcon
+                    product={product}
+                    className="absolute top-4 right-4 z-10"
+                  />
                   {product.countInStock === 0 && (
                     <div className="absolute top-4 left-4 bg-red-500 text-white px-3 py-1 rounded-full text-sm font-medium">
                       Out of Stock
@@ -195,7 +213,9 @@ const ProductDetails = () => {
 
               {/* Product Info */}
               <div className="lg:w-1/2">
-                <h1 className="text-3xl font-bold text-[#3A3632] mb-2">{product.name}</h1>
+                <h1 className="text-3xl font-bold text-[#3A3632] mb-2">
+                  {product.name}
+                </h1>
                 <div className="flex items-center mb-4">
                   <Ratings
                     value={product.rating}
@@ -203,7 +223,9 @@ const ProductDetails = () => {
                   />
                 </div>
 
-                <p className="text-4xl font-bold text-[#776B5D] mb-6">${product.price.toFixed(2)}</p>
+                <p className="text-4xl font-bold text-[#776B5D] mb-6">
+                  ₹{product.price.toFixed(2)}
+                </p>
 
                 <p className="text-[#5D534A] mb-8">{product.description}</p>
 
@@ -219,7 +241,9 @@ const ProductDetails = () => {
                     <div className="flex items-center text-[#5D534A]">
                       <FaClock className="mr-2" />
                       <span className="font-medium">Added:</span>
-                      <span className="ml-1">{moment(product.createAt).fromNow()}</span>
+                      <span className="ml-1">
+                        {moment(product.createAt).fromNow()}
+                      </span>
                     </div>
                   </div>
                   <div className="bg-[#F3EEEA] p-4 rounded-lg">
@@ -233,20 +257,26 @@ const ProductDetails = () => {
                     <div className="flex items-center text-[#5D534A]">
                       <FaShoppingCart className="mr-2" />
                       <span className="font-medium">SKU:</span>
-                      <span className="ml-1">{product._id.substring(0, 8)}</span>
+                      <span className="ml-1">
+                        {product._id.substring(0, 8)}
+                      </span>
                     </div>
                   </div>
                 </div>
 
                 {product.countInStock > 0 && (
                   <div className="flex items-center mb-8">
-                    <span className="text-[#5D534A] font-medium mr-4">Quantity:</span>
+                    <span className="text-[#5D534A] font-medium mr-4">
+                      Quantity:
+                    </span>
                     <select
                       value={qty}
                       onChange={(e) => setQty(Number(e.target.value))}
                       className="border border-[#EBE3D5] rounded-lg px-4 py-2 focus:outline-none focus:ring-1 focus:ring-[#B0A695]"
                     >
-                      {[...Array(Math.min(10, product.countInStock)).keys()].map((x) => (
+                      {[
+                        ...Array(Math.min(10, product.countInStock)).keys(),
+                      ].map((x) => (
                         <option key={x + 1} value={x + 1}>
                           {x + 1}
                         </option>
@@ -258,9 +288,11 @@ const ProductDetails = () => {
                 <button
                   onClick={addToCartHandler}
                   disabled={product.countInStock === 0}
-                  className={`w-full py-3 px-6 rounded-lg font-medium transition-colors ${product.countInStock === 0 
-                    ? "bg-gray-300 text-gray-500 cursor-not-allowed" 
-                    : "bg-[#776B5D] hover:bg-[#5D534A] text-white"}`}
+                  className={`w-full py-3 px-6 rounded-lg font-medium transition-colors ${
+                    product.countInStock === 0
+                      ? "bg-gray-300 text-gray-500 cursor-not-allowed"
+                      : "bg-[#776B5D] hover:bg-[#5D534A] text-white"
+                  }`}
                 >
                   {product.countInStock === 0 ? "Out of Stock" : "Add to Cart"}
                 </button>

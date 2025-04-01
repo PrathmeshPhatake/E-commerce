@@ -98,13 +98,13 @@ const PlaceOrder = () => {
                       <td className="px-6 py-4 whitespace-nowrap text-[#5D534A]">
                         {item.price.toLocaleString("en-US", {
                           style: "currency",
-                          currency: "USD"
+                          currency: "INR"
                         })}
                       </td>
                       <td className="px-6 py-4 whitespace-nowrap text-[#5D534A] font-medium">
                         {(item.qty * item.price).toLocaleString("en-US", {
                           style: "currency",
-                          currency: "USD"
+                          currency: "INR"
                         })}
                       </td>
                     </tr>
@@ -124,7 +124,7 @@ const PlaceOrder = () => {
                     <span className="font-medium text-black">
                       {cart.itemsPrice.toLocaleString("en-US", {
                         style: "currency",
-                        currency: "USD"
+                        currency: "INR"
                       })}
                     </span>
                   </div>
@@ -133,7 +133,7 @@ const PlaceOrder = () => {
                     <span className="font-medium text-black">
                       {cart.shippingPrice.toLocaleString("en-US", {
                         style: "currency",
-                        currency: "USD"
+                        currency: "INR"
                       })}
                     </span>
                   </div>
@@ -142,7 +142,7 @@ const PlaceOrder = () => {
                     <span className="font-medium text-black">
                       {cart.taxPrice.toLocaleString("en-US", {
                         style: "currency",
-                        currency: "USD"
+                        currency: "INR"
                       })}
                     </span>
                   </div>
@@ -151,7 +151,7 @@ const PlaceOrder = () => {
                     <span className="font-medium text-black">
                       {cart.totalPrice.toLocaleString("en-US", {
                         style: "currency",
-                        currency: "USD"
+                        currency: "INR"
                       })}
                     </span>
                   </div>

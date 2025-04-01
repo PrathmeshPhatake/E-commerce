@@ -62,7 +62,7 @@ const OrderList = () => {
                           <td className="px-6 py-4 whitespace-nowrap text-sm text-[#5D534A]">
                             {order.totalPrice.toLocaleString("en-US", {
                               style: "currency",
-                              currency: "USD"
+                              currency: "INR"
                             })}
                           </td>
                           <td className="px-6 py-4 whitespace-nowrap">

@@ -38,8 +38,9 @@ const ProductList = () => {
       const productData = new FormData();
       Object.entries(formData).forEach(([key, value]) => {
         productData.append(key, value);
+        console.log(key, value); // Verify stock is logged
       });
-      console.log("productData:",{productData});
+      console.log("productData:",productData);
       const { data } = await createProduct(productData);
 
       if (data.error) {

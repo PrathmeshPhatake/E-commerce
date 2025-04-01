@@ -3,8 +3,8 @@ import Product from "../models/productModel.js";
 
 const addProduct = asyncHandler(async (req, res) => {
   try {
-    const { name, description, price, category, quantity, brand } = req.fields;
-
+    const { name, description, price, category, stock , quantity, brand } = req.fields;
+    console.log(req.fields);
     // Validation
     switch (true) {
       case !name:
@@ -21,7 +21,9 @@ const addProduct = asyncHandler(async (req, res) => {
         return res.json({ error: "Quantity is required" });
     }
 
-    const product = new Product({ ...req.fields });
+    const product = new Product({ ...req.fields ,
+      countInStock:stock
+    });
     await product.save();
     res.json(product);
   } catch (error) {
@@ -33,7 +35,8 @@ const addProduct = asyncHandler(async (req, res) => {
 const updateProductDetails = asyncHandler(async (req, res) => {
   try {
     const { name, description, price, category, quantity, brand } = req.fields;
-
+    console.log("req.params.id:",req.params.id);
+    console.log("req.fields:",req.fields);
     // Validation
     switch (true) {
       case !name:

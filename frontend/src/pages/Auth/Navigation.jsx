@@ -181,6 +181,14 @@ const Navigation = () => {
                     </li>
                     <li>
                       <Link
+                        to="admin/allproductslist"
+                        className="block px-4 py-2 text-gray-800 hover:bg-gray-100"
+                      >
+                        All Products
+                      </Link>
+                    </li>
+                    <li>
+                      <Link
                         to="/admin/categorylist"
                         className="block px-4 py-2 text-gray-800 hover:bg-gray-100"
                       >

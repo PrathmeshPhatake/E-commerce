@@ -7,72 +7,83 @@ const AllProducts = () => {
   const { data: products, isLoading, isError } = useAllProductsQuery();
 
   if (isLoading) {
-    return <div>Loading...</div>;
+    return (
+      <div className="flex justify-center items-center h-64">
+        <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-[#776B5D]"></div>
+      </div>
+    );
   }
 
   if (isError) {
-    return <div>Error loading products</div>;
+    return (
+      <div className="p-4 bg-[#F3EEEA] text-[#9a662c] rounded-lg">
+        ⚠️ Error loading products. Try refreshing the page.
+      </div>
+    );
   }
 
   return (
-    <>
-      <div className="container mx-[9rem]">
-        <div className="flex flex-col  md:flex-row">
-          <div className="p-3">
-            <div className="ml-[2rem] text-xl font-bold h-12">
-              All Products ({products.length})
+    <div className="min-h-screen bg-[#F3EEEA] py-8">
+      <div className="container mx-auto px-4 max-w-6xl">
+        <div className="flex flex-col lg:flex-row gap-8">
+          {/* Main Content - Products List */}
+          <div className="lg:w-3/4">
+            {/* Header */}
+            <div className="mb-6 p-4 bg-[#EBE3D5] rounded-lg">
+              <h1 className="text-2xl font-bold text-[#776B5D]">
+                All Products ({products.length})
+              </h1>
             </div>
-            <div className="flex flex-wrap justify-around items-center">
+
+            {/* Products Grid */}
+            <div className="space-y-6">
               {products.map((product) => (
                 <Link
                   key={product._id}
                   to={`/admin/product/update/${product._id}`}
-                  className="block mb-4 overflow-hidden"
+                  className="block p-4 bg-white rounded-lg border border-[#EBE3D5] hover:shadow-md transition-shadow"
                 >
-                  <div className="flex">
+                  <div className="flex flex-col sm:flex-row gap-4">
                     <img
                       src={product.image}
                       alt={product.name}
-                      className="w-[10rem] object-cover"
+                      className="w-full sm:w-40 h-40 object-cover rounded-lg"
                     />
-                    <div className="p-4 flex flex-col justify-around">
-                      <div className="flex justify-between">
-                        <h5 className="text-xl font-semibold mb-2">
-                          {product?.name}
+                    <div className="flex-1">
+                      <div className="flex justify-between items-start">
+                        <h5 className="text-lg font-bold text-[#776B5D]">
+                          {product.name}
                         </h5>
-
-                        <p className="text-gray-400 text-xs">
+                        <p className="text-xs text-[#B0A695]">
                           {moment(product.createdAt).format("MMMM Do YYYY")}
                         </p>
                       </div>
-
-                      <p className="text-gray-400 xl:w-[30rem] lg:w-[30rem] md:w-[20rem] sm:w-[10rem] text-sm mb-4">
-                        {product?.description?.substring(0, 160)}...
+                      <p className="mt-2 text-sm text-[#776B5D] line-clamp-3">
+                        {product.description}
                       </p>
-
-                      <div className="flex justify-between">
+                      <div className="mt-4 flex justify-between items-center">
+                        <span className="text-lg font-semibold text-[#9a662c]">
+                          ${product.price}
+                        </span>
                         <Link
                           to={`/admin/product/update/${product._id}`}
-                          className="inline-flex items-center px-3 py-2 text-sm font-medium text-center text-white bg-pink-700 rounded-lg hover:bg-pink-800 focus:ring-4 focus:outline-none focus:ring-pink-300 dark:bg-pink-600 dark:hover:bg-pink-700 dark:focus:ring-pink-800"
+                          className="px-4 py-2 bg-[#B0A695] hover:bg-[#776B5D] text-white rounded-lg transition-colors flex items-center gap-1"
                         >
-                          Update Product
+                          Update
                           <svg
-                            className="w-3.5 h-3.5 ml-2"
-                            aria-hidden="true"
-                            xmlns="http://www.w3.org/2000/svg"
+                            className="w-3 h-3 ml-1"
                             fill="none"
-                            viewBox="0 0 14 10"
+                            stroke="currentColor"
+                            viewBox="0 0 24 24"
                           >
                             <path
-                              stroke="currentColor"
                               strokeLinecap="round"
                               strokeLinejoin="round"
-                              strokeWidth={2}
-                              d="M1 5h12m0 0L9 1m4 4L9 9"
+                              strokeWidth="2"
+                              d="M14 5l7 7m0 0l-7 7m7-7H3"
                             />
                           </svg>
                         </Link>
-                        <p>$ {product?.price}</p>
                       </div>
                     </div>
                   </div>
@@ -80,12 +91,16 @@ const AllProducts = () => {
               ))}
             </div>
           </div>
-          <div className="md:w-1/4 p-3 mt-2">
-            <AdminMenu />
-          </div>
+
+          {/* Sidebar - Admin Menu */}
+          {/* <div className="lg:w-1/4">
+            <div className="bg-white p-6 rounded-lg shadow-sm border border-[#EBE3D5]">
+              <AdminMenu />
+            </div>
+          </div> */}
         </div>
       </div>
-    </>
+    </div>
   );
 };
 

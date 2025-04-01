@@ -36,7 +36,8 @@ const CategoryList = () => {
         name, 
         image: imageUrl 
       }).unwrap();
-      
+
+      console.log("createCategory form:",result);
       if (result.error) {
         toast.error(result.error);
       } else {
