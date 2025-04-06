@@ -4,9 +4,9 @@ import Loader from "../components/Loader";
 import Message from "../components/Message";
 import Header from "../components/Header";
 import Product from "./Products/Product";
-import img1 from "../../Public/img1.webp"
-import img2 from "../../Public/img2.webp"
-import img3 from "../../Public/img3.webp"
+import img1 from "../../Public/img1.jpg"
+import img2 from "../../Public/img2.jpg"
+import img3 from "../../Public/img3.jpg"
 import SimpleImageSlider from "react-simple-image-slider";
 import CategoryHome from "./Category/CategoryHome.jsx";
 import ChatbotWidget from "./ChatbotWidget.jsx"
