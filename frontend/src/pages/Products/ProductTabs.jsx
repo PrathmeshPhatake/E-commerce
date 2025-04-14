@@ -39,7 +39,7 @@ const ProductTabs = ({
             }`}
             onClick={() => handleTabClick(1)}
           >
-            Review Summary
+            Write Your Review
           </button>
           <button
             className={`w-full text-left p-3 rounded-lg transition-colors ${
@@ -49,7 +49,7 @@ const ProductTabs = ({
             }`}
             onClick={() => handleTabClick(2)}
           >
-            Write Your Review
+            All Reviews
           </button>
           <button
             className={`w-full text-left p-3 rounded-lg transition-colors ${
@@ -59,7 +59,7 @@ const ProductTabs = ({
             }`}
             onClick={() => handleTabClick(3)}
           >
-            All Reviews
+            Review Summary
           </button>
           <button
             className={`w-full text-left p-3 rounded-lg transition-colors ${
@@ -78,44 +78,72 @@ const ProductTabs = ({
       <section className="md:w-3/4 md:pl-8">
         {/* Review Summary Tab */}
         {/* Review Summary Tab */}
-        {activeTab === 1 && reviewSummary && (
+        {activeTab === 3 && (
           <div className="bg-white p-6 rounded-lg shadow-sm">
-            <h3 className="text-xl font-medium text-black mb-4">
-              Review Summary
-            </h3>
-            <p className="text-lg font-semibold text-[#3A3632]">
-              Sentiment Score: {reviewSummary?.summary?.sentiment_score} ⭐
-            </p>
+            {reviewSummary ? (
+              <>
+                <h3 className="text-xl font-medium text-black mb-4">
+                  Review Summary
+                </h3>
+                <p className="text-lg font-semibold text-[#3A3632]">
+                  Sentiment Score: {reviewSummary.summary.sentiment_score} ⭐
+                </p>
 
-            {/* Pros Section */}
-            <div className="mt-6 bg-white p-4 rounded-lg shadow">
-              <h3 className="text-lg  text-black font-semibold mb-2">Review Summary</h3>
-              {reviewSummary.summary.pros.length > 0 && (
-                <div className="mb-4">
-                  <h4 className="font-medium text-black">Pros:</h4>
-                  <ul className="list-disc pl-5">
-                    {reviewSummary.summary.pros.map((pro, index) => (
-                      <li className="font-medium text-black" key={index}>{pro}</li>
-                    ))}
-                  </ul>
+                {/* Pros and Cons Section */}
+                <div className="mt-6 bg-white p-4 rounded-lg shadow">
+                  <h3 className="text-lg text-black font-semibold mb-2">
+                    Detailed Summary
+                  </h3>
+
+                  {/* Pros */}
+                  {reviewSummary.summary.pros?.length > 0 ? (
+                    <div className="mb-4">
+                      <h4 className="font-medium text-black">Pros:</h4>
+                      <ul className="list-disc pl-5">
+                        {reviewSummary.summary.pros.map((pro, index) => (
+                          <li
+                            className="font-medium text-black"
+                            key={`pro-${index}`}
+                          >
+                            {pro}
+                          </li>
+                        ))}
+                      </ul>
+                    </div>
+                  ) : (
+                    <p className="text-gray-500">No pros mentioned</p>
+                  )}
+
+                  {/* Cons */}
+                  {reviewSummary.summary.cons?.length > 0 ? (
+                    <div>
+                      <h4 className="font-medium text-black">Cons:</h4>
+                      <ul className="list-disc pl-5">
+                        {reviewSummary.summary.cons.map((con, index) => (
+                          <li
+                            className="font-medium text-black"
+                            key={`con-${index}`}
+                          >
+                            {con}
+                          </li>
+                        ))}
+                      </ul>
+                    </div>
+                  ) : (
+                    <p className="text-gray-500">No cons mentioned</p>
+                  )}
                 </div>
-              )}
-              {reviewSummary.summary.cons.length > 0 && (
-                <div>
-                  <h4 className="font-medium text-black">Cons:</h4>
-                  <ul className="list-disc pl-5">
-                    {reviewSummary.summary.cons.map((con, index) => (
-                      <li className="font-medium text-black" key={index}>{con}</li>
-                    ))}
-                  </ul>
-                </div>
-              )}
-            </div>
+              </>
+            ) : (
+              <p className="text-gray-500">
+                Review summary is being generated...
+              </p>
+            )}
           </div>
         )}
 
         {/* Write Review Tab */}
-        {activeTab === 2 && (
+        {activeTab === 1 && (
           <div className="bg-white p-6 rounded-lg shadow-sm">
             {userInfo ? (
               <form onSubmit={submitHandler}>
@@ -184,7 +212,7 @@ const ProductTabs = ({
         )}
 
         {/* All Reviews Tab */}
-        {activeTab === 3 && (
+        {activeTab === 2 && (
           <div className="space-y-4">
             {product.reviews.length === 0 ? (
               <div className="bg-white p-6 rounded-lg shadow-sm text-center text-[#5D534A]">

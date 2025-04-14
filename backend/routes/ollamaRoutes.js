@@ -5,7 +5,7 @@ import { analyzeReviews, chatbotProductSuggestions, ollamagenai } from "../contr
 
 router.route("/").get(ollamagenai);
 router.route("/genaireview/:id").get(analyzeReviews);
-router.route("/productsuggestion").post(chatbotProductSuggestions);
+router.route("/productsuggestion/:id").post(chatbotProductSuggestions);
 
 export default router;
 
