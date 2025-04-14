@@ -62,6 +62,7 @@ const ProductList = () => {
       toast.success("Image uploaded successfully");
       setFormData({ ...formData, image: res.url });
       setImageUrl(res.url);
+      console.log(res.url);
     } catch (error) {
       toast.error(error?.data?.message || error.error);
     }
