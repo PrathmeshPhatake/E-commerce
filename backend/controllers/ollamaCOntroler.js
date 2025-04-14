@@ -5,7 +5,8 @@ import Product from "../models/productModel.js";
 import Category from "../models/categoryModel.js"; 
 
 const OLLAMA_API_URL = 'http://localhost:11434/api/generate';
-const MODEL_NAME = 'tinyllama';
+const MODEL_NAME = 'codegemma:2b'; // Changed from tinyllama
+
 
 const generateWithOllama = async (prompt, options = {}) => {
     const { stream = false, format = 'text', model = MODEL_NAME } = options;
@@ -115,6 +116,7 @@ const analyzeReviews = asyncHandler(async (req, res) => {
             console.error('Invalid analysis format:', analysis.rawResponse);
             throw new Error('Failed to parse analysis results');
         }
+        console.log("sumarize review:",summary);
 
         // 6. Return structured response
         res.json({

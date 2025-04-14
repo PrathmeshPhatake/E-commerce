@@ -80,7 +80,7 @@ const ProductTabs = ({
         {/* Review Summary Tab */}
         {activeTab === 1 && reviewSummary && (
           <div className="bg-white p-6 rounded-lg shadow-sm">
-            <h3 className="text-xl font-medium text-[#5D534A] mb-4">
+            <h3 className="text-xl font-medium text-black mb-4">
               Review Summary
             </h3>
             <p className="text-lg font-semibold text-[#3A3632]">
@@ -88,35 +88,28 @@ const ProductTabs = ({
             </p>
 
             {/* Pros Section */}
-            <div className="mt-4">
-              <h4 className="text-lg font-medium text-green-600">Pros:</h4>
-              <ul className="list-disc list-inside text-[#5D534A]">
-                {reviewSummary?.summary?.pros?.length > 0 ? (
-                  reviewSummary.summary.pros.map((pro, index) => (
-                    <li key={index} className="text-sm">
-                      {pro.text} {pro.emoji}
-                    </li>
-                  ))
-                ) : (
-                  <p className="text-sm">No pros mentioned.</p>
-                )}
-              </ul>
-            </div>
-
-            {/* Cons Section */}
-            <div className="mt-4">
-              <h4 className="text-lg font-medium text-red-600">Cons:</h4>
-              <ul className="list-disc list-inside text-[#5D534A]">
-                {reviewSummary?.summary?.cons?.length > 0 ? (
-                  reviewSummary.summary.cons.map((con, index) => (
-                    <li key={index} className="text-sm">
-                      {con.text} {con.emoji}
-                    </li>
-                  ))
-                ) : (
-                  <p className="text-sm">No cons mentioned.</p>
-                )}
-              </ul>
+            <div className="mt-6 bg-white p-4 rounded-lg shadow">
+              <h3 className="text-lg  text-black font-semibold mb-2">Review Summary</h3>
+              {reviewSummary.summary.pros.length > 0 && (
+                <div className="mb-4">
+                  <h4 className="font-medium text-black">Pros:</h4>
+                  <ul className="list-disc pl-5">
+                    {reviewSummary.summary.pros.map((pro, index) => (
+                      <li className="font-medium text-black" key={index}>{pro}</li>
+                    ))}
+                  </ul>
+                </div>
+              )}
+              {reviewSummary.summary.cons.length > 0 && (
+                <div>
+                  <h4 className="font-medium text-black">Cons:</h4>
+                  <ul className="list-disc pl-5">
+                    {reviewSummary.summary.cons.map((con, index) => (
+                      <li className="font-medium text-black" key={index}>{con}</li>
+                    ))}
+                  </ul>
+                </div>
+              )}
             </div>
           </div>
         )}
