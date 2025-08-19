@@ -121,12 +121,28 @@ const fetchProductById = asyncHandler(async (req, res) => {
   }
 });
 
+// In your productController.js
 const fetchAllProducts = asyncHandler(async (req, res) => {
   try {
+    const pageSize = 6; // Fixed to 6 products per page
+    const page = Number(req.query.page) || 1;
+    
     const products = await Product.find({})
-      .populate("category").sort({ createAt: -1 });
+      .populate("category")
+      .sort({ createdAt: -1 })
+      .limit(pageSize)
+      .skip(pageSize * (page - 1));
 
-    res.json(products);
+    const totalProducts = await Product.countDocuments({});
+    const totalPages = Math.ceil(totalProducts / pageSize);
+
+    res.json({
+      products,
+      currentPage: page,
+      totalPages,
+      hasMore: page < totalPages,
+      totalProducts
+    });
   } catch (error) {
     console.error(error);
     res.status(500).json({ error: "Server Error" });
