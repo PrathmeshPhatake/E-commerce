@@ -20,7 +20,27 @@ export const productApiSlice = apiSlice.injectEndpoints({
     }),
 
     allProducts: builder.query({
-      query: () => `${PRODUCT_URL}/allProducts`,
+      query: (page) => `${PRODUCT_URL}/allProducts?page=${page}`,
+      // Only have one cache entry because the arg always maps to one string
+      serializeQueryArgs: ({ endpointName }) => {
+        return endpointName;
+      },
+      // Always merge incoming data to the cache entry
+      merge: (currentCache, newItems) => {
+        if (newItems.currentPage === 1) {
+          return newItems;
+        }
+        return {
+          ...currentCache,
+          products: [...currentCache.products, ...newItems.products],
+          currentPage: newItems.currentPage,
+          hasMore: newItems.hasMore
+        };
+      },
+      // Refetch when the page arg changes
+      forceRefetch({ currentArg, previousArg }) {
+        return currentArg !== previousArg;
+      },
     }),
 
     getProductDetails: builder.query({

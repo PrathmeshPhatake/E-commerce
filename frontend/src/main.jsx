@@ -6,21 +6,21 @@ import store from "./redux/store";
 import { Route, RouterProvider, createRoutesFromElements } from "react-router";
 import { createBrowserRouter } from "react-router-dom";
 
-import PrivateRoute from "./components/PrivateRoute";
+import PrivateRoute from "./pages/components/PrivateRoute.jsx";
 
 // Auth
 import Login from "./pages/Auth/Login";
 import Register from "./pages/Auth/Register";
 
-import AdminRoute from "./pages/Admin/AdminRoute";
+import AdminRoute from "./pages/Admin/AdminRoute.js";
 import Profile from "./pages/User/Profile";
-import UserList from "./pages/Admin/UserList";
+import UserList from "./pages/Admin/UserList.jsx";
 
 import CategoryList from "./pages/Category/CategoryList";
 
-import ProductList from "./pages/Admin/ProductList";
-import AllProducts from "./pages/Admin/AllProducts";
-import ProductUpdate from "./pages/Admin/ProductUpdate";
+import ProductList from "./pages/Admin/ProductList.js";
+import AllProducts from "./pages/Admin/AllProducts.jsx";
+import ProductUpdate from "./pages/Admin/ProductUpdate.js";
 
 import Home from "./pages/Home.jsx";
 import Favorites from "./pages/Products/Favorites.jsx";
@@ -32,9 +32,9 @@ import Shop from "./pages/Shop.jsx";
 import Shipping from "./pages/Orders/Shipping.jsx";
 import PlaceOrder from "./pages/Orders/PlaceOrder.jsx";
 import Order from "./pages/Orders/Order.jsx";
-import OrderList from "./pages/Admin/OrderList.jsx";
+import OrderList from "./pages/Admin/OrderList.js";
 import { PayPalScriptProvider } from "@paypal/react-paypal-js";
-import AdminDashboard from "./pages/Admin/AdminDashboard.jsx";
+import AdminDashboard from "./pages/Admin/AdminDashboard.js";
 import ChatbotWidget from "./pages/ChatbotWidget.jsx";
 
 const router = createBrowserRouter(

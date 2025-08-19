@@ -3,8 +3,8 @@ import { Link, useParams } from "react-router-dom";
 import { PayPalButtons, usePayPalScriptReducer } from "@paypal/react-paypal-js";
 import { useSelector } from "react-redux";
 import { toast } from "react-toastify";
-import Message from "../../components/Message";
-import Loader from "../../components/Loader";
+import Message from "../components/Message";
+import Loader from "../components/Loader";
 import {
   useDeliverOrderMutation,
   useGetOrderDetailsQuery,

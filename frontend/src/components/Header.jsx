@@ -1,7 +1,7 @@
-import { useGetTopProductsQuery } from "../redux/api/productApiSlice";
+import { useGetTopProductsQuery } from "../../redux/api/productApiSlice";
 import Loader from "./Loader";
-import SmallProduct from "../pages/Products/SmallProduct";
-import ProductCarousel from "../pages/Products/ProductCarousel";
+import SmallProduct from "../Products/SmallProduct";
+import ProductCarousel from "../Products/ProductCarousel";
 
 const Header = () => {
   const { data, isLoading, error } = useGetTopProductsQuery();
@@ -33,7 +33,7 @@ const Header = () => {
       </div>
 
       {/* Horizontal row of SmallProduct components */}
-      <div className="flex  py-4 space-x-4 px-4">
+      <div className="flex  py-4 space-x-4 px-24">
         {data.map((product) => (
           <div key={product._id} className="flex-shrink-0">
             <SmallProduct product={product} />

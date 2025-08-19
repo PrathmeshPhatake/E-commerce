@@ -7,8 +7,8 @@ import {
   useCreateReviewMutation,
 } from "../../redux/api/productApiSlice";
 import { useGetSummarizedReviewQuery } from "../../redux/api/ollamaApiSlice";
-import Loader from "../../components/Loader";
-import Message from "../../components/Message";
+import Loader from "../components/Loader";
+import Message from "../components/Message";
 import {
   FaBox,
   FaClock,
@@ -91,7 +91,7 @@ const ProductDetails = () => {
     });
 
     // Position the zoom lens
-    const lensSize = 150;
+    const lensSize = 200;
     const lensX = Math.max(
       0,
       Math.min(e.clientX - left - lensSize / 2, width - lensSize)

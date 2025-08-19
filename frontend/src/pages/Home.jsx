@@ -1,8 +1,8 @@
 import { Link, useParams } from "react-router-dom";
 import { useGetProductsQuery } from "../redux/api/productApiSlice";
-import Loader from "../components/Loader";
-import Message from "../components/Message";
-import Header from "../components/Header";
+import Loader from "./components/Loader.jsx";
+import Message from "./components/Message.jsx";
+import Header from "./components/Header.jsx";
 import Product from "./Products/Product";
 import img1 from "../../Public/img1.jpg"
 import img2 from "../../Public/img2.jpg"

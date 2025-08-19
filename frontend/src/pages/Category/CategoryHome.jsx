@@ -81,7 +81,7 @@ const CategoryHome = () => {
                   },
                 },
               }}
-              onClick={() => navigate(`/products?category=${category.name}`)}
+              onClick={() => navigate(`/shop`)}
             >
               <Avatar
                 src={category.image}
